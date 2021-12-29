@@ -8,7 +8,7 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 
 public class Adapter2 extends BaseAdapter {
-
+    // Redundant Class
     private Context context;
     private int[] images;
 
@@ -36,6 +36,7 @@ public class Adapter2 extends BaseAdapter {
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(images[position]);
         imageView.setLayoutParams(new Gallery.LayoutParams(200, 200));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return imageView;
     }
 }

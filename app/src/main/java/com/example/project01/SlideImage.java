@@ -1,18 +1,21 @@
 package com.example.project01;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
-public class SlideImage extends Fragment {
-    Gallery simpleGallery;
-    Adapter2 customGalleryAdapter;
+public class SlideImage extends Fragment implements View.OnClickListener{
+    //Adapter2 customGalleryAdapter;
+    ImageView[] imageView_arr;
+    private int prev_sel_idx;
+    private int cur_sel_idx;
     ImageView selectedImageView;
 
     int[] images = {R.drawable.img1,
@@ -54,20 +57,40 @@ public class SlideImage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.slide_layout, container, false);
-
-        simpleGallery = (Gallery) v.findViewById(R.id.simpleGallery);
+        LinearLayout gallery = v.findViewById(R.id.gallery);
         selectedImageView = (ImageView) v.findViewById(R.id.selectedImageView);
-        customGalleryAdapter = new Adapter2(v.getContext(), images);
-        simpleGallery.setAdapter(customGalleryAdapter);
-        selectedImageView.setImageResource(images[0]);
 
-        simpleGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedImageView.setImageResource(images[position]);
+        imageView_arr = new ImageView[images.length];
+        prev_sel_idx = 0;
+        cur_sel_idx = 0;
+
+        selectedImageView.setImageResource(images[cur_sel_idx]);
+        for(int i = 0; i < images.length; i++) {
+            View view = inflater.inflate(R.layout.item, gallery, false);
+            imageView_arr[i] = view.findViewById(R.id.imageView);
+            imageView_arr[i].setImageResource(images[i]);
+            if(i == cur_sel_idx) {
+                imageView_arr[i].setAlpha(1.0f);
             }
-        });
+            else {
+                imageView_arr[i].setAlpha(0.5f);
+            }
+            imageView_arr[i].setId(i);
+            imageView_arr[i].setOnClickListener(this);
+            // Log.d("=================id_check: ", String.valueOf(imageView_arr[i].getId()));
+
+            gallery.addView(view);
+        }
 
         return v;
+    }
+
+    public void onClick(View view){
+        // Log.d("=================id_check: ", String.valueOf(view.getId()));
+        prev_sel_idx = cur_sel_idx;
+        cur_sel_idx = view.getId();
+        imageView_arr[prev_sel_idx].setAlpha(0.5f);
+        imageView_arr[cur_sel_idx].setAlpha(1.0f);
+        selectedImageView.setImageResource(images[cur_sel_idx]);
     }
 }
