@@ -49,8 +49,8 @@ public class FullImage extends Activity {
                     } else {
                         position++;
                         images.setImageResource(imageAdapter.mThumbIds[position]);
-                        Toast.makeText(getApplicationContext(), "Next Image",
-                                Toast.LENGTH_LONG).show();
+                        /*Toast.makeText(getApplicationContext(), "Next Image",
+                                Toast.LENGTH_LONG).show();*/
                         Switch.showNext();
                     }
 
@@ -62,8 +62,8 @@ public class FullImage extends Activity {
 
                         position= position-1;
                         images.setImageResource(imageAdapter.mThumbIds[position]);
-                        Toast.makeText(getApplicationContext(), "Previous Image",
-                                Toast.LENGTH_LONG).show();
+                        /*Toast.makeText(getApplicationContext(), "Previous Image",
+                                Toast.LENGTH_LONG).show();*/
                         Switch.showPrevious();
 
                     }
