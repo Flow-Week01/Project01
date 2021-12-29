@@ -1,16 +1,18 @@
 package com.example.project01;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +67,7 @@ public class frag1 extends Fragment {
             for (int i = 0; i < jsonArr.length(); i++){
                 ListData listData = new ListData();
                 JSONObject jObj = jsonArr.getJSONObject(i);
-                listData.profileImage = R.drawable.ic_launcher_foreground;
+                listData.profileImage = R.drawable.call_resize;
                 listData.peopleName = jObj.optString("name");
                 listData.peopleNum = jObj.optString("number");
                 arrList.add(listData);
@@ -78,6 +80,50 @@ public class frag1 extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+
+        Button addBtn = v.findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+
+                alert.setTitle("ADD");
+                alert.setMessage("Input name & number");
+
+                LayoutInflater alertInflater = getLayoutInflater();
+                final View alertView = alertInflater.inflate(R.layout.add_alert, null);
+                alert.setView(alertView);
+
+                alert.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        ListData addedData = new ListData();
+                        addedData.profileImage = R.drawable.call_resize;
+                        EditText edit_name = (EditText)alertView.findViewById(R.id.editName);
+                        EditText edit_num = (EditText)alertView.findViewById(R.id.editNum);
+                        String str_name = edit_name.getText().toString();
+                        String str_num = edit_num.getText().toString();
+                        addedData.peopleName = str_name;
+                        addedData.peopleNum = str_num;
+                        arrList.add(addedData);
+                        String tmpData = "\"name\":"+str_name+",\"number\":\""+str_num+"\"";
+                        JSONObject tmpJson = null;
+                        try {
+                            tmpJson = new JSONObject(tmpData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+            }
+        });
         return v;
     }
 }
