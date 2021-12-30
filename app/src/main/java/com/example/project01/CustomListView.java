@@ -18,8 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Response;
 
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -67,7 +76,37 @@ public class CustomListView extends BaseAdapter {
         rmvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String folderPath = viewGroup.getContext().getFilesDir().getAbsolutePath().toString();
                 if (i > -1) {
+                    File storedFile = new File(folderPath+"/numberList.json");
+                    Reader freader = null;
+                    JSONObject jsonObj = null;
+                    try {
+                        freader = new FileReader(folderPath+"/numberList.json");
+                        JSONParser parser = new JSONParser();
+                        jsonObj = (JSONObject) parser.parse(freader);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    JSONArray jsonArr = (JSONArray) jsonObj.get("book");
+                    jsonArr.remove(i);
+                    JSONObject finalJson = new JSONObject();
+                    finalJson.put("book", jsonArr);
+
+                    FileWriter file;
+                    try {
+                        String filePath = folderPath + "/numberList.json";
+                        System.out.println(filePath + "DONE");
+                        file = new FileWriter(filePath);
+                        file.write(finalJson.toJSONString());
+                        file.flush();
+                        file.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     listViewData.remove(i);
                     notifyDataSetChanged();
                 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,26 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import org.json.JSONArray;
+//import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+//import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class frag1 extends Fragment {
 
@@ -31,6 +43,8 @@ public class frag1 extends Fragment {
     }
 
     ListView jList;
+    String folderPath;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,46 +56,80 @@ public class frag1 extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_frag1, container, false);
         jList = v.findViewById(R.id.json_list);
+        folderPath = getActivity().getFilesDir().getAbsolutePath().toString();
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int widthPixels = metrics.widthPixels * 8/10;
+//        int heightPixels = widthPixels * 191/124;
 
         final ArrayList<ListData> arrList = new ArrayList<>();
+        JSONArray jsonArr = new JSONArray();
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, arrList);
-
+        System.out.println(folderPath);
         //jList.setAdapter(arrayAdapter);
         AssetManager assetManager = getContext().getAssets();
         try {
             InputStream is = assetManager.open("jsons/test.json");
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
+//            InputStreamReader isr = new InputStreamReader(is);
+//            BufferedReader br = new BufferedReader(isr);
 
-            StringBuffer buf = new StringBuffer();
-            String line = br.readLine();
-            while(line != null){
-                buf.append(line);
-                line = br.readLine();
+            File dir = new File(folderPath);
+            File files[] = dir.listFiles();
+//            boolean fileExists = false;
+            for (int j = 0; j < files.length; j++) {
+//                if(files[j].getName() == "numberList.json"){
+//                    fileExists = true;
+//                }
+                System.out.println("file: " + files[j].getName());
             }
-            String name = null;
-            String number = null;
-            String jsonData = buf.toString();
-            JSONObject jsonObj = new JSONObject(jsonData);
-            JSONArray jsonArr = jsonObj.getJSONArray("book");
-            for (int i = 0; i < jsonArr.length(); i++){
+
+            File storageFile = new File(folderPath+"/numberList.json");
+            try {
+                if(storageFile.createNewFile()){
+                    try (FileOutputStream outputStream = new FileOutputStream(storageFile)) {
+                        int read;
+                        byte[] bytes = new byte[1024];
+                        while ((read = is.read(bytes)) != -1) {
+                            outputStream.write(bytes, 0, read);
+                        }
+                    }
+                    System.out.println("File Saved.");
+                }
+                else{
+                    System.out.println("File Already Exists.");
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+            Reader freader = new FileReader(folderPath+"/numberList.json");
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObj = (JSONObject) parser.parse(freader);
+            jsonArr = (JSONArray) jsonObj.get("book");
+            Iterator<JSONObject> iterator = jsonArr.iterator();
+            int i = 0;
+            while(iterator.hasNext()){
+//                if(i<)
                 ListData listData = new ListData();
-                JSONObject jObj = jsonArr.getJSONObject(i);
+                JSONObject jObj = (JSONObject) jsonArr.get(i);
+                iterator.next();
                 listData.profileImage = R.drawable.call_resize;
-                listData.peopleName = jObj.optString("name");
-                listData.peopleNum = jObj.optString("number");
+                listData.peopleName = (String) jObj.get("name");
+                listData.peopleNum = (String) jObj.get("number");
                 arrList.add(listData);
-                //arrayAdapter.notifyDataSetChanged();
+                i++;
             }
 
             ListAdapter objAdapter = new CustomListView(arrList);
             jList.setAdapter(objAdapter);
 
-        } catch (IOException | JSONException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
+//
         Button addBtn = v.findViewById(R.id.addBtn);
+        JSONArray finalJsonArr = jsonArr;
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,13 +153,29 @@ public class frag1 extends Fragment {
                         addedData.peopleName = str_name;
                         addedData.peopleNum = str_num;
                         arrList.add(addedData);
-                        String tmpData = "\"name\":"+str_name+",\"number\":\""+str_num+"\"";
-                        JSONObject tmpJson = null;
+
+                        JSONObject tmpJson = new JSONObject();
+                        tmpJson.put("name", str_name);
+                        tmpJson.put("number", str_num);
+                        finalJsonArr.add(tmpJson);
+
+                        JSONObject finalJson = new JSONObject();
+                        finalJson.put("book", finalJsonArr);
+
+                        System.out.println(finalJson);
+
+                        FileWriter file;
                         try {
-                            tmpJson = new JSONObject(tmpData);
-                        } catch (JSONException e) {
+                            String filePath = folderPath + "/numberList.json";
+                            System.out.println(filePath);
+                            file = new FileWriter(filePath);
+                            file.write(finalJson.toJSONString());
+                            file.flush();
+                            file.close();
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
+
                     }
                 });
                 alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener(){

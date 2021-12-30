@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="10dp"
     tools:context=".frag1">
 
@@ -18,7 +18,7 @@
             android:id="@+id/json_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="7dp"/>
+            android:dividerHeight="7dp" />
     </ScrollView>
 
     <Button
