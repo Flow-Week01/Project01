@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 
 public class SlideImage extends Fragment implements View.OnClickListener{
-    //Adapter2 customGalleryAdapter;
     ImageView[] imageView_arr;
     private int prev_sel_idx;
     private int cur_sel_idx;
