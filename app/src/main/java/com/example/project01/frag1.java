@@ -58,28 +58,17 @@ public class frag1 extends Fragment {
         jList = v.findViewById(R.id.json_list);
         folderPath = getActivity().getFilesDir().getAbsolutePath().toString();
 
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int widthPixels = metrics.widthPixels * 8/10;
-//        int heightPixels = widthPixels * 191/124;
-
         final ArrayList<ListData> arrList = new ArrayList<>();
         JSONArray jsonArr = new JSONArray();
-        //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, arrList);
         System.out.println(folderPath);
-        //jList.setAdapter(arrayAdapter);
         AssetManager assetManager = getContext().getAssets();
         try {
             InputStream is = assetManager.open("jsons/test.json");
-//            InputStreamReader isr = new InputStreamReader(is);
-//            BufferedReader br = new BufferedReader(isr);
 
             File dir = new File(folderPath);
             File files[] = dir.listFiles();
-//            boolean fileExists = false;
             for (int j = 0; j < files.length; j++) {
-//                if(files[j].getName() == "numberList.json"){
-//                    fileExists = true;
-//                }
+
                 System.out.println("file: " + files[j].getName());
             }
 
@@ -150,39 +139,77 @@ public class frag1 extends Fragment {
                         EditText edit_num = (EditText)alertView.findViewById(R.id.editNum);
                         String str_name = edit_name.getText().toString();
                         String str_num = edit_num.getText().toString();
-                        addedData.peopleName = str_name;
-                        addedData.peopleNum = str_num;
-                        arrList.add(addedData);
+                        System.out.println(str_name.trim().getBytes());
+                        System.out.println(str_name.trim().getBytes().length);
+                        System.out.println(str_name.trim().getBytes());
+                        System.out.println(str_num.trim().getBytes().length);
+                        if(str_name.trim().getBytes().length > 0 && str_num.trim().getBytes().length > 0) {
+                            final String REGEX = "[0-9]+";
+                            String test_num = str_num.trim();
+                            if(test_num.matches(REGEX)){
+                                addedData.peopleName = str_name;
+                                addedData.peopleNum = str_num;
+                                arrList.add(addedData);
 
-                        JSONObject tmpJson = new JSONObject();
-                        tmpJson.put("name", str_name);
-                        tmpJson.put("number", str_num);
-                        finalJsonArr.add(tmpJson);
+                                JSONObject tmpJson = new JSONObject();
+                                tmpJson.put("name", str_name);
+                                tmpJson.put("number", str_num);
+                                finalJsonArr.add(tmpJson);
 
-                        JSONObject finalJson = new JSONObject();
-                        finalJson.put("book", finalJsonArr);
+                                JSONObject finalJson = new JSONObject();
+                                finalJson.put("book", finalJsonArr);
 
-                        System.out.println(finalJson);
+                                System.out.println(finalJson);
 
-                        FileWriter file;
-                        try {
-                            String filePath = folderPath + "/numberList.json";
-                            System.out.println(filePath);
-                            file = new FileWriter(filePath);
-                            file.write(finalJson.toJSONString());
-                            file.flush();
-                            file.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                                FileWriter file;
+                                try {
+                                    String filePath = folderPath + "/numberList.json";
+                                    System.out.println(filePath);
+                                    file = new FileWriter(filePath);
+                                    file.write(finalJson.toJSONString());
+                                    file.flush();
+                                    file.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else {
+                                AlertDialog.Builder numAlertBuilder = new AlertDialog.Builder(getContext());
+                                numAlertBuilder.setTitle("Alert");
+                                numAlertBuilder.setMessage("Please fill only number in 'NUM'.");
+                                numAlertBuilder.setPositiveButton("Ok",new DialogInterface.OnClickListener(){
+                                    public void onClick(DialogInterface dialog,int which){
+                                    }
+                                });
+                                numAlertBuilder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                numAlertBuilder.show();
+                            }
+                        }
+                        else{
+                            AlertDialog.Builder nullAlertBuilder = new AlertDialog.Builder(getContext());
+                            nullAlertBuilder.setTitle("Alert");
+                            nullAlertBuilder.setMessage("Please fill in the blanks.");
+                            nullAlertBuilder.setPositiveButton("Ok",new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog,int which){
+                                }
+                            });
+                            nullAlertBuilder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            nullAlertBuilder.show();
                         }
 
                     }
                 });
                 alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener(){
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
                 });
                 alert.show();
