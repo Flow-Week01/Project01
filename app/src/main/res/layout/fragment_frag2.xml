@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frag2">
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:weightSum="100">
+
+    <FrameLayout
+        android:id="@+id/tab2_frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="85"
+        tools:context=".frag2">
+
+    </FrameLayout>
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TAB 2"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="40dp"/>
+        android:orientation="vertical" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
-
-        <ImageView
-            android:id="@+id/selectedImageView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:scaleType="fitXY" />
-
-        <Gallery
-            android:id="@+id/simpleGallery"
-            android:layout_width="fill_parent"
+        <Button
+            android:id="@+id/toggle_layout_button"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:unselectedAlpha="50" />
+            android:text="switch"/>
 
     </LinearLayout>
 
-
-</FrameLayout>
+</LinearLayout>
