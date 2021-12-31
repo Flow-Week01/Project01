@@ -7,12 +7,9 @@
     tools:context=".frag3">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <fragment android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:id="@+id/ux_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TAB 3"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="40dp"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>
