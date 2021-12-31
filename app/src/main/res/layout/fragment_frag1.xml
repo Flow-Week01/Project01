@@ -18,7 +18,8 @@
             android:id="@+id/json_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="7dp" />
+            android:dividerHeight="7dp"
+            android:divider="#00000000"/>
     </ScrollView>
 
     <Button
