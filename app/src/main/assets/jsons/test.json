@@ -1,56 +1,70 @@
 {"book": [
   {"name": "Hong GilDong",
-    "number": "01012345678"
+    "number": "01012345678",
+    "color": "#000000"
   },
   {
     "name": "Kim CheolSu",
-    "number": "01098765432"
+    "number": "01098765432",
+    "color": "#000000"
   },
   {
     "name": "Park YeongHui",
-    "number": "01013579864"
+    "number": "01013579864",
+    "color": "#000000"
   },
   {
     "name": "Jeong HyunCheol",
-    "number": "01097531246"
+    "number": "01097531246",
+    "color": "#000000"
   },
   {
     "name": "Yoon SaRa",
-    "number": "01024680975"
+    "number": "01024680975",
+    "color": "#000000"
   },
   {
     "name": "Lee JinYeong",
-    "number": "01019283746"
+    "number": "01019283746",
+    "color": "#000000"
   },
   {
     "name": "Jeon JiMin",
-    "number": "01067584930"
+    "number": "01067584930",
+    "color": "#000000"
   },
   {"name": "Hong GilDong",
-    "number": "01012345678"
+    "number": "01012345678",
+    "color": "#000000"
   },
   {
     "name": "Kim CheolSu",
-    "number": "01098765432"
+    "number": "01098765432",
+    "color": "#000000"
   },
   {
     "name": "Park YeongHui",
-    "number": "01013579864"
+    "number": "01013579864",
+    "color": "#000000"
   },
   {
     "name": "Jeong HyunCheol",
-    "number": "01097531246"
+    "number": "01097531246",
+    "color": "#000000"
   },
   {
     "name": "Yoon SaRa",
-    "number": "01024680975"
+    "number": "01024680975",
+    "color": "#000000"
   },
   {
     "name": "Lee JinYeong",
-    "number": "01019283746"
+    "number": "01019283746",
+    "color": "#000000"
   },
   {
     "name": "Jeon JiMin",
-    "number": "01067584930"
+    "number": "01067584930",
+    "color": "#000000"
   }
 ]}

@@ -50,12 +50,25 @@
             android:fontFamily="@font/avenirbold"/>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:layout_weight="3"
-        android:background="#00000000"
-        app:srcCompat="@drawable/remove_background" />
+        android:orientation="vertical"
+        android:layout_weight="3">
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#00000000"
+            app:srcCompat="@drawable/remove_background" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRe"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            app:srcCompat="@drawable/reset_background" />
+
+    </LinearLayout>
 
 </LinearLayout>

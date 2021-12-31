@@ -60,7 +60,13 @@ public class CustomListView extends BaseAdapter {
         TextView name = view.findViewById(R.id.nameTxt);
         TextView number = view.findViewById(R.id.numberTxt);
 
+        String folderPath = viewGroup.getContext().getFilesDir().getAbsolutePath().toString();
+        final Reader[] freader = {null};
+        final JSONObject[] jsonObj = {null};
+
         mainImg.setImageResource(listViewData.get(i).profileImage);
+        mainImg.setColorFilter(Color.parseColor(listViewData.get(i).profileImgColor), PorterDuff.Mode.SRC_IN);
+
         name.setText(listViewData.get(i).peopleName);
         number.setText(listViewData.get(i).peopleNum);
 
@@ -68,20 +74,19 @@ public class CustomListView extends BaseAdapter {
         rmvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String folderPath = viewGroup.getContext().getFilesDir().getAbsolutePath().toString();
                 if (i > -1) {
-                    Reader freader = null;
-                    JSONObject jsonObj = null;
+                    freader[0] = null;
+                    jsonObj[0] = null;
                     try {
-                        freader = new FileReader(folderPath+"/numberList.json");
+                        freader[0] = new FileReader(folderPath+"/numberList.json");
                         JSONParser parser = new JSONParser();
-                        jsonObj = (JSONObject) parser.parse(freader);
+                        jsonObj[0] = (JSONObject) parser.parse(freader[0]);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    JSONArray jsonArr = (JSONArray) jsonObj.get("book");
+                    JSONArray jsonArr = (JSONArray) jsonObj[0].get("book");
                     jsonArr.remove(i);
                     JSONObject finalJson = new JSONObject();
                     finalJson.put("book", jsonArr);
@@ -104,11 +109,76 @@ public class CustomListView extends BaseAdapter {
             }
         });
 
+        ImageButton resetBtn = view.findViewById(R.id.imageButtonRe);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    freader[0] = new FileReader(folderPath+"/numberList.json");
+                    JSONParser parser = new JSONParser();
+                    jsonObj[0] = (JSONObject) parser.parse(freader[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                JSONObject replaceObj = (JSONObject) ((JSONArray)jsonObj[0].get("book")).get(i);
+                replaceObj.replace("color", "#000000");
+
+                JSONObject finalJsonRe = new JSONObject();
+                finalJsonRe.put("book", (JSONArray)jsonObj[0].get("book"));
+
+                FileWriter file;
+                try {
+                    String filePath = folderPath + "/numberList.json";
+                    System.out.println(filePath + "DONE");
+                    file = new FileWriter(filePath);
+                    file.write(finalJsonRe.toJSONString());
+                    file.flush();
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                mainImg.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
+                listViewData.get(i).profileImgColor = "#000000";
+                notifyDataSetChanged();
+            }
+        });
+
         mainImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String changedColor = randomColor();
+                try {
+                    freader[0] = new FileReader(folderPath+"/numberList.json");
+                    JSONParser parser = new JSONParser();
+                    jsonObj[0] = (JSONObject) parser.parse(freader[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                JSONObject replaceObj = (JSONObject) ((JSONArray)jsonObj[0].get("book")).get(i);
+                replaceObj.replace("color", changedColor);
+
+                JSONObject finalJson2 = new JSONObject();
+                finalJson2.put("book", (JSONArray)jsonObj[0].get("book"));
+
+                FileWriter file;
+                try {
+                    String filePath = folderPath + "/numberList.json";
+                    System.out.println(filePath + "DONE");
+                    file = new FileWriter(filePath);
+                    file.write(finalJson2.toJSONString());
+                    file.flush();
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 mainImg.setColorFilter(Color.parseColor(changedColor), PorterDuff.Mode.SRC_IN);
+                listViewData.get(i).profileImgColor = changedColor;
                 notifyDataSetChanged();
             }
         });
