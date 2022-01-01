@@ -17,7 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.filament.gltfio.Animator;
@@ -37,24 +38,6 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Build.VERSION_CODES;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.widget.Toast;
-
-import com.google.ar.core.Anchor;
-import com.google.ar.core.HitResult;
-import com.google.ar.core.Plane;
-import com.google.ar.sceneform.AnchorNode;
-import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.ux.ArFragment;
-import com.google.ar.sceneform.ux.TransformableNode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,6 +60,12 @@ public class frag3 extends Fragment {
 
     private ArFragment arFragment;
     private Renderable renderable;
+
+    private int[] armenu = {R.raw.conudim, R.raw.gumball, R.raw.oilcan, R.raw.toyramp};
+    private String[] armenu_string = {"conudim", "gumball", "oilcan", "toyramp"};
+    private int ar_cur = 0;
+    private int ar_prv = 0;
+    private TextView[] armenu_text;
 
     private static class AnimationInstance {
         Animator animator;
@@ -148,12 +137,15 @@ public class frag3 extends Fragment {
         }
 
         arFragment = (ArFragment) getChildFragmentManager().findFragmentById(R.id.ux_fragment);
-        Log.d("------------------whwywwhwyww: ", String.valueOf(arFragment.getArSceneView()));
+        LinearLayout armenu_view = v.findViewById(R.id.armenu);
+        ar_cur = 0;
+        ar_prv = 0;
+        armenu_text = new TextView[armenu.length];
 
         WeakReference<frag3> weakActivity = new WeakReference<>(this);
 
         ModelRenderable.builder()
-                .setSource(v.getContext(), R.raw.toyramp)
+                .setSource(v.getContext(), armenu[ar_cur])
                 .setIsFilamentGltf(true)
                 .build()
                 .thenAccept(
@@ -166,7 +158,7 @@ public class frag3 extends Fragment {
                 .exceptionally(
                         throwable -> {
                             Toast toast =
-                                    Toast.makeText(v.getContext(), "Unable to load Tiger renderable", Toast.LENGTH_LONG);
+                                    Toast.makeText(v.getContext(), "Unable to load the selected model", Toast.LENGTH_LONG);
 
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -197,7 +189,7 @@ public class frag3 extends Fragment {
                     }
 
                     Color color = colors.get(nextColor);
-                    nextColor++;
+                    nextColor = (nextColor + 1) % 8;
                     for (int i = 0; i < renderable.getSubmeshCount(); ++i) {
                         Material material = renderable.getMaterial(i);
                         material.setFloat4("baseColorFactor", color);
@@ -218,81 +210,100 @@ public class frag3 extends Fragment {
                             }
                         });
 
-        Button changeBtn = v.findViewById(R.id.changeBtn);
-        changeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ModelRenderable.builder()
-                        .setSource(v.getContext(), R.raw.oilcan)
-                        .setIsFilamentGltf(true)
-                        .build()
-                        .thenAccept(
-                                modelRenderable -> {
-                                    frag3 activity = weakActivity.get();
-                                    if (activity != null) {
-                                        activity.renderable = modelRenderable;
-                                    }
-                                })
-                        .exceptionally(
-                                throwable -> {
-                                    Toast toast =
-                                            Toast.makeText(v.getContext(), "Unable to load Tiger renderable", Toast.LENGTH_LONG);
-
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-                                    return null;
-                                });
-                arFragment.setOnTapArPlaneListener(
-                        (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
-
-                            if (renderable == null) {
-                                return;
-                            }
-
-                            // Create the Anchor.
-                            Anchor anchor = hitResult.createAnchor();
-                            AnchorNode anchorNode = new AnchorNode(anchor);
-                            anchorNode.setParent(arFragment.getArSceneView().getScene());
-
-                            // Create the transformable model and add it to the anchor.
-                            TransformableNode model = new TransformableNode(arFragment.getTransformationSystem());
-                            model.setParent(anchorNode);
-                            model.setRenderable(renderable);
-                            model.select();
-
-                            FilamentAsset filamentAsset = model.getRenderableInstance().getFilamentAsset();
-                            if (filamentAsset.getAnimator().getAnimationCount() > 0) {
-                                animators.add(new AnimationInstance(filamentAsset.getAnimator(), 0, System.nanoTime()));
-                            }
-
-                            Color color = colors.get(nextColor);
-                            nextColor++;
-                            for (int i = 0; i < renderable.getSubmeshCount(); ++i) {
-                                Material material = renderable.getMaterial(i);
-                                material.setFloat4("baseColorFactor", color);
-                            }
-                        });
-
-                arFragment.getArSceneView()
-                        .getScene()
-                        .addOnUpdateListener(
-                                frameTime -> {
-                                    Long time = System.nanoTime();
-                                    for (AnimationInstance animator : animators) {
-                                        animator.animator.applyAnimation(
-                                                animator.index,
-                                                (float) ((time - animator.startTime) / (double) SECONDS.toNanos(1))
-                                                        % animator.duration);
-                                        animator.animator.updateBoneMatrices();
-                                    }
-                                });
+        for(int i = 0; i < armenu.length; i++) {
+            View view = inflater.inflate(R.layout.item_armenu, armenu_view, false);
+            armenu_text[i] = view.findViewById(R.id.textView);
+            armenu_text[i].setText(armenu_string[i]);
+            if(i == ar_cur) {
+                armenu_text[i].setAlpha(1.0f);
             }
-        });
+            else {
+                armenu_text[i].setAlpha(0.5f);
+            }
+            armenu_text[i].setId(i);
+            armenu_text[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ar_prv = ar_cur;
+                    ar_cur = view.getId();
+                    armenu_text[ar_prv].setAlpha(0.5f);
+                    armenu_text[ar_cur].setAlpha(1.0f);
+
+                    ModelRenderable.builder()
+                            .setSource(v.getContext(), armenu[ar_cur])
+                            .setIsFilamentGltf(true)
+                            .build()
+                            .thenAccept(
+                                    modelRenderable -> {
+                                        frag3 activity = weakActivity.get();
+                                        if (activity != null) {
+                                            activity.renderable = modelRenderable;
+                                        }
+                                    })
+                            .exceptionally(
+                                    throwable -> {
+                                        Toast toast =
+                                                Toast.makeText(v.getContext(), "Unable to load the selected model", Toast.LENGTH_LONG);
+
+                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                        toast.show();
+                                        return null;
+                                    });
+                    arFragment.setOnTapArPlaneListener(
+                            (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
+
+                                if (renderable == null) {
+                                    return;
+                                }
+
+                                // Create the Anchor.
+                                Anchor anchor = hitResult.createAnchor();
+                                AnchorNode anchorNode = new AnchorNode(anchor);
+                                anchorNode.setParent(arFragment.getArSceneView().getScene());
+
+                                // Create the transformable model and add it to the anchor.
+                                TransformableNode model = new TransformableNode(arFragment.getTransformationSystem());
+                                model.setParent(anchorNode);
+                                model.setRenderable(renderable);
+                                model.select();
+
+                                FilamentAsset filamentAsset = model.getRenderableInstance().getFilamentAsset();
+                                if (filamentAsset.getAnimator().getAnimationCount() > 0) {
+                                    animators.add(new AnimationInstance(filamentAsset.getAnimator(), 0, System.nanoTime()));
+                                }
+
+                                Color color = colors.get(nextColor);
+                                nextColor = (nextColor + 1) % 8;
+                                for (int i = 0; i < renderable.getSubmeshCount(); ++i) {
+                                    Material material = renderable.getMaterial(i);
+                                    material.setFloat4("baseColorFactor", color);
+                                }
+                            });
+
+                    arFragment.getArSceneView()
+                            .getScene()
+                            .addOnUpdateListener(
+                                    frameTime -> {
+                                        Long time = System.nanoTime();
+                                        for (AnimationInstance animator : animators) {
+                                            animator.animator.applyAnimation(
+                                                    animator.index,
+                                                    (float) ((time - animator.startTime) / (double) SECONDS.toNanos(1))
+                                                            % animator.duration);
+                                            animator.animator.updateBoneMatrices();
+                                        }
+                                    });
+                }
+            });
+            // Log.d("=================id_check: ", String.valueOf(imageView_arr[i].getId()));
+
+            armenu_view.addView(view);
+        }
+
         return v;
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             Log.e(TAG, "Sceneform requires Android N or later");
             Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
