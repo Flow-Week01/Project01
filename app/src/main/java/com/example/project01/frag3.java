@@ -41,7 +41,9 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -74,8 +76,10 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
     private TextView[] armenu_text;
 
     private Button delete_btn;
-    private Node nodeToRemove = null;
+    private Button reset_btn;
+
     private TransformableNode modelToRemove = null;
+    private List<TransformableNode> model_all;
 
     private static class AnimationInstance {
         Animator animator;
@@ -147,7 +151,8 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
         }
 
         delete_btn = v.findViewById(R.id.model_delete_btn);
-        // delete_btn.animate().alpha(1.0f);
+        reset_btn = v.findViewById(R.id.model_reset_btn);
+        model_all = new ArrayList<>();
 
         arFragment = (ArFragment) getChildFragmentManager().findFragmentById(R.id.ux_fragment);
         LinearLayout armenu_view = v.findViewById(R.id.armenu);
@@ -198,13 +203,12 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
                     model.setRenderable(renderable);
                     model.select();
 
+                    model_all.add(model);
+
                     model.setOnTapListener((HitTestResult hitTestResult, MotionEvent Event) ->
                     {
-                        /*Node nodeToRemove = hitTestResult.getNode();
-                        anchorNode.removeChild(nodeToRemove);*/
                         if(delete_btn.getAlpha() == 0f) {
                             modelToRemove = model;
-                            nodeToRemove = hitTestResult.getNode();
                             delete_btn.setEnabled(true);
                             delete_btn.animate().alpha(1f);
                         }
@@ -258,7 +262,6 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
 
                     if(delete_btn.getAlpha() == 1f) {
                         modelToRemove = null;
-                        nodeToRemove = null;
                         delete_btn.setEnabled(false);
                         delete_btn.animate().alpha(0f);
                     }
@@ -302,13 +305,12 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
                                 model.setRenderable(renderable);
                                 model.select();
 
+                                model_all.add(model);
+
                                 model.setOnTapListener((HitTestResult hitTestResult, MotionEvent Event) ->
                                 {
-                                    /*Node nodeToRemove = hitTestResult.getNode();
-                                    anchorNode.removeChild(nodeToRemove);*/
                                     if(delete_btn.getAlpha() == 0f) {
                                         modelToRemove = model;
-                                        nodeToRemove = hitTestResult.getNode();
                                         delete_btn.setEnabled(true);
                                         delete_btn.animate().alpha(1f);
                                     }
@@ -349,13 +351,36 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(delete_btn.getAlpha()==1f && nodeToRemove != null && modelToRemove != null) {
-                    modelToRemove.getParent().removeChild(nodeToRemove);
+                if(delete_btn.getAlpha()==1f && modelToRemove != null) {
+                    modelToRemove.getParent().removeChild(modelToRemove);
+                    model_all.remove(modelToRemove);
+//                    modelToRemove.setParent(null);
                     modelToRemove = null;
-                    nodeToRemove = null;
                     delete_btn.setEnabled(false);
                     delete_btn.animate().alpha(0f);
                 }
+            }
+        });
+
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(delete_btn.getAlpha() == 1f) {
+                    modelToRemove = null;
+                    delete_btn.setEnabled(false);
+                    delete_btn.animate().alpha(0f);
+                }
+
+                // Log.d("::::::::BEFORE size of models Array: ", String.valueOf(model_all.size()));
+
+                Iterator<TransformableNode> i = model_all.iterator();
+                while(i.hasNext()) {
+                    TransformableNode rmv_node = i.next();
+                    rmv_node.getParent().removeChild(rmv_node);
+                    i.remove();
+                }
+
+                // Log.d("::::::::NOW size of models Array: ", String.valueOf(model_all.size()));
             }
         });
 
@@ -366,7 +391,6 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
     public void onPeekTouch(HitTestResult hitTestResult, MotionEvent tap) {
         if(delete_btn.getAlpha() == 1f) {
             modelToRemove = null;
-            nodeToRemove = null;
             delete_btn.setEnabled(false);
             delete_btn.animate().alpha(0f);
         }
