@@ -67,12 +67,6 @@ public class frag3 extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static final double MIN_OPENGL_VERSION = 3.0;
-
-    private ArFragment arFragment;
-    private ModelRenderable andyRenderable;
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -158,7 +152,7 @@ public class frag3 extends Fragment {
         WeakReference<frag3> weakActivity = new WeakReference<>(this);
 
         ModelRenderable.builder()
-                .setSource(v.getContext(), R.raw.oilcan)
+                .setSource(v.getContext(), R.raw.toyramp)
                 .setIsFilamentGltf(true)
                 .build()
                 .thenAccept(
