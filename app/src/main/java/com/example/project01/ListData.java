@@ -4,4 +4,5 @@ public class ListData {
     public int profileImage = 0;
     public String peopleName = "";
     public String peopleNum = "";
+    public String profileImgColor = "#000000";
 }

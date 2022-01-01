@@ -67,10 +67,6 @@ public class frag1 extends Fragment {
 
             File dir = new File(folderPath);
             File files[] = dir.listFiles();
-            for (int j = 0; j < files.length; j++) {
-
-                System.out.println("file: " + files[j].getName());
-            }
 
             File storageFile = new File(folderPath+"/numberList.json");
             try {
@@ -98,13 +94,13 @@ public class frag1 extends Fragment {
             Iterator<JSONObject> iterator = jsonArr.iterator();
             int i = 0;
             while(iterator.hasNext()){
-//                if(i<)
                 ListData listData = new ListData();
                 JSONObject jObj = (JSONObject) jsonArr.get(i);
                 iterator.next();
                 listData.profileImage = R.drawable.call_resize;
                 listData.peopleName = (String) jObj.get("name");
                 listData.peopleNum = (String) jObj.get("number");
+                listData.profileImgColor = (String) jObj.get("color");
                 arrList.add(listData);
                 i++;
             }
@@ -139,10 +135,6 @@ public class frag1 extends Fragment {
                         EditText edit_num = (EditText)alertView.findViewById(R.id.editNum);
                         String str_name = edit_name.getText().toString();
                         String str_num = edit_num.getText().toString();
-                        System.out.println(str_name.trim().getBytes());
-                        System.out.println(str_name.trim().getBytes().length);
-                        System.out.println(str_name.trim().getBytes());
-                        System.out.println(str_num.trim().getBytes().length);
                         if(str_name.trim().getBytes().length > 0 && str_num.trim().getBytes().length > 0) {
                             final String REGEX = "[0-9]+";
                             String test_num = str_num.trim();
@@ -154,12 +146,11 @@ public class frag1 extends Fragment {
                                 JSONObject tmpJson = new JSONObject();
                                 tmpJson.put("name", str_name);
                                 tmpJson.put("number", str_num);
+                                tmpJson.put("color", "#000000");
                                 finalJsonArr.add(tmpJson);
 
                                 JSONObject finalJson = new JSONObject();
                                 finalJson.put("book", finalJsonArr);
-
-                                System.out.println(finalJson);
 
                                 FileWriter file;
                                 try {
@@ -197,7 +188,7 @@ public class frag1 extends Fragment {
                                 public void onClick(DialogInterface dialog,int which){
                                 }
                             });
-                            nullAlertBuilder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                            nullAlertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                 }

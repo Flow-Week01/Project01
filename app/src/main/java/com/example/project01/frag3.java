@@ -37,6 +37,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.widget.Toast;
+
+import com.google.ar.core.Anchor;
+import com.google.ar.core.HitResult;
+import com.google.ar.core.Plane;
+import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.TransformableNode;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link frag3#newInstance} factory method to
@@ -122,6 +140,7 @@ public class frag3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View v =  inflater.inflate(R.layout.fragment_frag3, container, false);
         if (!checkIsSupportedDeviceOrFinish((MainActivity)getActivity())) {
             return v;
@@ -133,7 +152,7 @@ public class frag3 extends Fragment {
         WeakReference<frag3> weakActivity = new WeakReference<>(this);
 
         ModelRenderable.builder()
-                .setSource(v.getContext(), R.raw.oilcan)
+                .setSource(v.getContext(), R.raw.toyramp)
                 .setIsFilamentGltf(true)
                 .build()
                 .thenAccept(
@@ -147,6 +166,7 @@ public class frag3 extends Fragment {
                         throwable -> {
                             Toast toast =
                                     Toast.makeText(v.getContext(), "Unable to load Tiger renderable", Toast.LENGTH_LONG);
+
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                             return null;
@@ -154,6 +174,7 @@ public class frag3 extends Fragment {
 
         arFragment.setOnTapArPlaneListener(
                 (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
+
                     if (renderable == null) {
                         return;
                     }
@@ -199,6 +220,7 @@ public class frag3 extends Fragment {
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             Log.e(TAG, "Sceneform requires Android N or later");
             Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();

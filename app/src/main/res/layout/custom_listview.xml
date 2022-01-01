@@ -9,27 +9,31 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
+        android:background="#ffffff"
         android:layout_weight="1"/>
 
     <ImageView
         android:id="@+id/profileImg"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_weight="3"
-        android:background="#00000000"
+        android:background="#ffffff"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <View
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
+        android:background="#ffffff"
         android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="10"
-        android:orientation="vertical">
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/nameTxt"
@@ -38,6 +42,7 @@
             android:textSize="25dp"
             android:textStyle="bold"
             android:text="TextView"
+            android:background="#ffffff"
             android:textColor="@color/black"
             android:fontFamily="@font/avenirbold"/>
 
@@ -47,15 +52,31 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:text="TextView"
+            android:background="#ffffff"
             android:fontFamily="@font/avenirbold"/>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:background="#ffffff"
         android:layout_weight="3"
-        android:background="#00000000"
-        app:srcCompat="@drawable/remove_background" />
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/remove_background" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRe"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/reset_background" />
+
+    </LinearLayout>
 
 </LinearLayout>
