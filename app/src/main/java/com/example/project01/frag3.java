@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +28,22 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.HitTestResult;
+import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.Scene;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.Color;
 import com.google.ar.sceneform.rendering.Material;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
+import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +52,7 @@ import java.util.Set;
  * Use the {@link frag3#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class frag3 extends Fragment {
+public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,6 +74,12 @@ public class frag3 extends Fragment {
     private int ar_cur = 0;
     private int ar_prv = 0;
     private TextView[] armenu_text;
+
+    private Button delete_btn;
+    private Button reset_btn;
+
+    private TransformableNode modelToRemove = null;
+    private List<TransformableNode> model_all;
 
     private static class AnimationInstance {
         Animator animator;
@@ -136,6 +150,10 @@ public class frag3 extends Fragment {
             return v;
         }
 
+        delete_btn = v.findViewById(R.id.model_delete_btn);
+        reset_btn = v.findViewById(R.id.model_reset_btn);
+        model_all = new ArrayList<>();
+
         arFragment = (ArFragment) getChildFragmentManager().findFragmentById(R.id.ux_fragment);
         LinearLayout armenu_view = v.findViewById(R.id.armenu);
         ar_cur = 0;
@@ -165,6 +183,8 @@ public class frag3 extends Fragment {
                             return null;
                         });
 
+        arFragment.getArSceneView().getScene().addOnPeekTouchListener(this);
+
         arFragment.setOnTapArPlaneListener(
                 (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
 
@@ -182,6 +202,17 @@ public class frag3 extends Fragment {
                     model.setParent(anchorNode);
                     model.setRenderable(renderable);
                     model.select();
+
+                    model_all.add(model);
+
+                    model.setOnTapListener((HitTestResult hitTestResult, MotionEvent Event) ->
+                    {
+                        if(delete_btn.getAlpha() == 0f) {
+                            modelToRemove = model;
+                            delete_btn.setEnabled(true);
+                            delete_btn.animate().alpha(1f);
+                        }
+                    });
 
                     FilamentAsset filamentAsset = model.getRenderableInstance().getFilamentAsset();
                     if (filamentAsset.getAnimator().getAnimationCount() > 0) {
@@ -229,6 +260,12 @@ public class frag3 extends Fragment {
                     armenu_text[ar_prv].setAlpha(0.5f);
                     armenu_text[ar_cur].setAlpha(1.0f);
 
+                    if(delete_btn.getAlpha() == 1f) {
+                        modelToRemove = null;
+                        delete_btn.setEnabled(false);
+                        delete_btn.animate().alpha(0f);
+                    }
+
                     ModelRenderable.builder()
                             .setSource(v.getContext(), armenu[ar_cur])
                             .setIsFilamentGltf(true)
@@ -249,6 +286,7 @@ public class frag3 extends Fragment {
                                         toast.show();
                                         return null;
                                     });
+
                     arFragment.setOnTapArPlaneListener(
                             (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
 
@@ -266,6 +304,17 @@ public class frag3 extends Fragment {
                                 model.setParent(anchorNode);
                                 model.setRenderable(renderable);
                                 model.select();
+
+                                model_all.add(model);
+
+                                model.setOnTapListener((HitTestResult hitTestResult, MotionEvent Event) ->
+                                {
+                                    if(delete_btn.getAlpha() == 0f) {
+                                        modelToRemove = model;
+                                        delete_btn.setEnabled(true);
+                                        delete_btn.animate().alpha(1f);
+                                    }
+                                });
 
                                 FilamentAsset filamentAsset = model.getRenderableInstance().getFilamentAsset();
                                 if (filamentAsset.getAnimator().getAnimationCount() > 0) {
@@ -299,7 +348,52 @@ public class frag3 extends Fragment {
             armenu_view.addView(view);
         }
 
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(delete_btn.getAlpha()==1f && modelToRemove != null) {
+                    modelToRemove.getParent().removeChild(modelToRemove);
+                    model_all.remove(modelToRemove);
+//                    modelToRemove.setParent(null);
+                    modelToRemove = null;
+                    delete_btn.setEnabled(false);
+                    delete_btn.animate().alpha(0f);
+                }
+            }
+        });
+
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(delete_btn.getAlpha() == 1f) {
+                    modelToRemove = null;
+                    delete_btn.setEnabled(false);
+                    delete_btn.animate().alpha(0f);
+                }
+
+                // Log.d("::::::::BEFORE size of models Array: ", String.valueOf(model_all.size()));
+
+                Iterator<TransformableNode> i = model_all.iterator();
+                while(i.hasNext()) {
+                    TransformableNode rmv_node = i.next();
+                    rmv_node.getParent().removeChild(rmv_node);
+                    i.remove();
+                }
+
+                // Log.d("::::::::NOW size of models Array: ", String.valueOf(model_all.size()));
+            }
+        });
+
         return v;
+    }
+
+    @Override
+    public void onPeekTouch(HitTestResult hitTestResult, MotionEvent tap) {
+        if(delete_btn.getAlpha() == 1f) {
+            modelToRemove = null;
+            delete_btn.setEnabled(false);
+            delete_btn.animate().alpha(0f);
+        }
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
