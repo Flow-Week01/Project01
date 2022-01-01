@@ -61,8 +61,8 @@ public class frag3 extends Fragment {
     private ArFragment arFragment;
     private Renderable renderable;
 
-    private int[] armenu = {R.raw.conudim, R.raw.gumball, R.raw.oilcan, R.raw.toyramp};
-    private String[] armenu_string = {"conudim", "gumball", "oilcan", "toyramp"};
+    private int[] armenu = {R.raw.tmp1, R.raw.tmp2, R.raw.tmp3, R.raw.table, R.raw.table6, R.raw.ttt, R.raw.chair, R.raw.cbeech, R.raw.cblack, R.raw.couch, R.raw.bed, R.raw.conudim, R.raw.gumball, R.raw.oilcan, R.raw.toyramp, R.raw.fireplace};
+    private String[] armenu_string = {"closet A", "closet B", "closet C", "table A", "table B", "table C", "chair A", "chair B", "chair C", "couch", "bed", "conudim", "gumball", "oilcan", "toyramp", "fireplace"};
     private int ar_cur = 0;
     private int ar_prv = 0;
     private TextView[] armenu_text;
@@ -295,7 +295,6 @@ public class frag3 extends Fragment {
                                     });
                 }
             });
-            // Log.d("=================id_check: ", String.valueOf(imageView_arr[i].getId()));
 
             armenu_view.addView(view);
         }
