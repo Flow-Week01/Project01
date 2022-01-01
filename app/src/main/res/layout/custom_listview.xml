@@ -39,7 +39,7 @@
             android:id="@+id/nameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:textStyle="bold"
             android:text="TextView"
             android:background="#ffffff"
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:text="TextView"
+            android:textColor="@color/black"
             android:background="#ffffff"
             android:fontFamily="@font/avenirbold"/>
     </LinearLayout>
