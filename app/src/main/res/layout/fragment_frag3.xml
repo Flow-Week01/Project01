@@ -12,12 +12,34 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <fragment
-            android:id="@+id/ux_fragment"
-            android:name="com.google.ar.sceneform.ux.ArFragment"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.85"/>
+            android:layout_weight="0.85">
+
+            <fragment
+                android:id="@+id/ux_fragment"
+                android:name="com.google.ar.sceneform.ux.ArFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/model_delete_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_gravity="bottom|center"
+                android:textSize="20sp"
+                android:background="@drawable/rounded_bg"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"
+                android:text="X"
+                android:animateLayoutChanges="true"
+                android:alpha="0"
+                android:enabled="false"
+                />
+
+        </FrameLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
