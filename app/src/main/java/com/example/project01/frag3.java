@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.filament.gltfio.Animator;
@@ -216,6 +217,77 @@ public class frag3 extends Fragment {
                                 animator.animator.updateBoneMatrices();
                             }
                         });
+
+        Button changeBtn = v.findViewById(R.id.changeBtn);
+        changeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ModelRenderable.builder()
+                        .setSource(v.getContext(), R.raw.oilcan)
+                        .setIsFilamentGltf(true)
+                        .build()
+                        .thenAccept(
+                                modelRenderable -> {
+                                    frag3 activity = weakActivity.get();
+                                    if (activity != null) {
+                                        activity.renderable = modelRenderable;
+                                    }
+                                })
+                        .exceptionally(
+                                throwable -> {
+                                    Toast toast =
+                                            Toast.makeText(v.getContext(), "Unable to load Tiger renderable", Toast.LENGTH_LONG);
+
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    return null;
+                                });
+                arFragment.setOnTapArPlaneListener(
+                        (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
+
+                            if (renderable == null) {
+                                return;
+                            }
+
+                            // Create the Anchor.
+                            Anchor anchor = hitResult.createAnchor();
+                            AnchorNode anchorNode = new AnchorNode(anchor);
+                            anchorNode.setParent(arFragment.getArSceneView().getScene());
+
+                            // Create the transformable model and add it to the anchor.
+                            TransformableNode model = new TransformableNode(arFragment.getTransformationSystem());
+                            model.setParent(anchorNode);
+                            model.setRenderable(renderable);
+                            model.select();
+
+                            FilamentAsset filamentAsset = model.getRenderableInstance().getFilamentAsset();
+                            if (filamentAsset.getAnimator().getAnimationCount() > 0) {
+                                animators.add(new AnimationInstance(filamentAsset.getAnimator(), 0, System.nanoTime()));
+                            }
+
+                            Color color = colors.get(nextColor);
+                            nextColor++;
+                            for (int i = 0; i < renderable.getSubmeshCount(); ++i) {
+                                Material material = renderable.getMaterial(i);
+                                material.setFloat4("baseColorFactor", color);
+                            }
+                        });
+
+                arFragment.getArSceneView()
+                        .getScene()
+                        .addOnUpdateListener(
+                                frameTime -> {
+                                    Long time = System.nanoTime();
+                                    for (AnimationInstance animator : animators) {
+                                        animator.animator.applyAnimation(
+                                                animator.index,
+                                                (float) ((time - animator.startTime) / (double) SECONDS.toNanos(1))
+                                                        % animator.duration);
+                                        animator.animator.updateBoneMatrices();
+                                    }
+                                });
+            }
+        });
         return v;
     }
 
