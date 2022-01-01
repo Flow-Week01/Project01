@@ -9,19 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:weightSum="1"
         tools:context=".MainActivity">
 
         <ImageView
             android:id="@+id/selectedImageView"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
             android:scaleType="fitCenter" />
 
         <HorizontalScrollView
             android:scrollbars="none"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
