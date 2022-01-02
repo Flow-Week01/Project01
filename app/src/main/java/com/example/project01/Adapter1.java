@@ -1,6 +1,7 @@
 package com.example.project01;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +11,6 @@ import android.widget.ImageView;
 
 public class Adapter1 extends BaseAdapter {
     private Context mContext;
-    public  Integer[] mThumbIds = {
-            R.drawable.img1,
-            R.drawable.img2,
-            R.drawable.img3,
-            R.drawable.img4,
-            R.drawable.img5,
-            R.drawable.img6,
-            R.drawable.img7,
-            R.drawable.img8,
-            R.drawable.img9,
-            R.drawable.img10,
-            R.drawable.img11,
-            R.drawable.img12,
-            R.drawable.img13,
-            R.drawable.img14,
-            R.drawable.img15,
-            R.drawable.img16,
-            R.drawable.img17,
-            R.drawable.img18,
-            R.drawable.img19,
-            R.drawable.img20,
-    };
 
     public Adapter1(Context c){
         mContext = c;
@@ -39,12 +18,12 @@ public class Adapter1 extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mThumbIds.length;
+        return frag2.File_cnt();
     }
 
     @Override
     public Object getItem(int position) {
-        return mThumbIds[position];
+        return frag2.getFile_at(position);
     }
 
     @Override
@@ -55,7 +34,7 @@ public class Adapter1 extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(mContext);
-        imageView.setImageResource(mThumbIds[position]);
+        imageView.setImageBitmap(frag2.decodeSampledBitmapFromResource(frag2.getFile_at(position).getAbsolutePath(), 200, 200));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
         return imageView;

@@ -2,6 +2,7 @@ package com.example.project01;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,8 +38,8 @@ public class FullImage extends Activity {
         imageAdapter = new Adapter1(this);
 
         images = (ImageView) findViewById(R.id.full_image_view);
-        images.setImageResource(imageAdapter.mThumbIds[position]);
-        textView.setText(String.valueOf(position+1)+" / "+String.valueOf(imageAdapter.mThumbIds.length));
+        images.setImageBitmap(BitmapFactory.decodeFile(frag2.getFile_at(position).getAbsolutePath()));
+        textView.setText(String.valueOf(position+1)+" / "+String.valueOf(frag2.File_cnt()));
     }
 
     public void SetTextVisible() {
@@ -72,13 +73,13 @@ public class FullImage extends Activity {
                 // Log.d("Check image arr size: ", String.valueOf(imageAdapter.mThumbIds.length));
                 if (pos_delta > slide_range) {
                     if (initialX > finalX) {
-                        if (position == imageAdapter.mThumbIds.length-1) {
+                        if (position == frag2.File_cnt()-1) {
                             position = 0;
-                            images.setImageResource(imageAdapter.mThumbIds[0]);
+                            images.setImageBitmap(BitmapFactory.decodeFile(frag2.getFile_at(0).getAbsolutePath()));
                             Switch.showPrevious();
                         } else {
                             position++;
-                            images.setImageResource(imageAdapter.mThumbIds[position]);
+                            images.setImageBitmap(BitmapFactory.decodeFile(frag2.getFile_at(position).getAbsolutePath()));
                             Switch.showNext();
                         }
                     }
@@ -87,17 +88,17 @@ public class FullImage extends Activity {
                         if (position > 0)
                         {
                             position= position-1;
-                            images.setImageResource(imageAdapter.mThumbIds[position]);
+                            images.setImageBitmap(BitmapFactory.decodeFile(frag2.getFile_at(position).getAbsolutePath()));
                             Switch.showPrevious();
                         }
                         else
                         {
-                            position = imageAdapter.mThumbIds.length-1;
-                            images.setImageResource(imageAdapter.mThumbIds[position]);
+                            position = frag2.File_cnt()-1;
+                            images.setImageBitmap(BitmapFactory.decodeFile(frag2.getFile_at(position).getAbsolutePath()));
                             Switch.showPrevious();
                         }
                     }
-                    textView.setText(String.valueOf(position+1)+" / "+String.valueOf(imageAdapter.mThumbIds.length));
+                    textView.setText(String.valueOf(position+1)+" / "+String.valueOf(frag2.File_cnt()));
                 }
                 else
                 {
