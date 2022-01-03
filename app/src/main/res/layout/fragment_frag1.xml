@@ -4,9 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    tools:context=".frag1"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".frag1">
+    android:background="@drawable/backstar">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/logowhite"
+            android:layout_marginBottom="10dp">
+        </ImageView>
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dark_btn_shape"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:layout_gravity="bottom|right"
+            android:theme="@style/TextTheme"
+            android:text="ADD" />
+
+    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,12 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="7dp"
+            android:theme="@style/TextTheme"
+            android:background="#00000000"
             android:divider="#00000000"/>
     </ScrollView>
-
-    <Button
-        android:id="@+id/addBtn"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="ADD" />
 </LinearLayout>

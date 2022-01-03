@@ -4,7 +4,7 @@
     android:id="@+id/grid_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:numColumns="auto_fit"
+    android:numColumns="2"
     android:columnWidth="110dp"
     android:padding="5dp"
     android:verticalSpacing="10dp"

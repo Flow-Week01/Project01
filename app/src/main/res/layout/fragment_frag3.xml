@@ -6,66 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".frag3">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/ux_fragment"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_height="match_parent" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.85">
+    <Button
+        android:id="@+id/model_delete_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_gravity="bottom|center"
+        android:textSize="20sp"
+        android:background="@drawable/rounded_bg"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:text="X"
+        android:animateLayoutChanges="true"
+        android:alpha="0"
+        android:enabled="false"
+        />
 
-            <fragment
-                android:id="@+id/ux_fragment"
-                android:name="com.google.ar.sceneform.ux.ArFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/model_reset_btn"
+        android:gravity="center"
+        android:layout_gravity="top|left"
+        android:textSize="12sp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:text="RESET" />
 
-            <Button
-                android:id="@+id/model_delete_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:layout_gravity="bottom|center"
-                android:textSize="20sp"
-                android:background="@drawable/rounded_bg"
-                android:textColor="@color/white"
-                android:layout_margin="10dp"
-                android:text="X"
-                android:animateLayoutChanges="true"
-                android:alpha="0"
-                android:enabled="false"
-                />
+    <Button
+        android:id="@+id/capture_btn"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="top|right"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:textSize="12sp"
+        android:text="CAPTURE" />
 
-            <Button
-                android:id="@+id/model_reset_btn"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:layout_gravity="top|left"
-                android:background="@color/black"
-                android:textColor="@color/white"
-                android:layout_margin="10dp"
-                android:textSize="15sp"
-                android:text="RESET" />
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="5dp">
 
-        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/armenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/transparent"
+            android:gravity="center"/>
+    </HorizontalScrollView>
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.15">
-
-            <LinearLayout
-                android:id="@+id/armenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"/>
-        </HorizontalScrollView>
-    </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->
 
