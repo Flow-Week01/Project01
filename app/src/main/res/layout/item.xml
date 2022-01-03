@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
+    android:layout_width="150dp"
     android:layout_height="150dp"
     android:orientation="horizontal"
     tools:layout_editor_absoluteX="1dp"
@@ -12,8 +12,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="5dp"
         tools:srcCompat="@tools:sample/avatars"
         android:scaleType="centerCrop"/>
 </LinearLayout>

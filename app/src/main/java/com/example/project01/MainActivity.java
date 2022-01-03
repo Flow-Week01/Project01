@@ -3,19 +3,12 @@ package com.example.project01;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -60,17 +53,26 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(vpAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int prev_pos = 0;
             public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
+                if(prev_pos == 1) {
+                    frag2_obj.reset_gallery_line();
+                }
+
                 if(position == 1) {
                     frag2_obj.refresh_files();
+                    frag2_obj.show_animation(false);
                 }
 
                 for(int i=0; i<3; i++) {
                     tabLayout.getTabAt(i).setText(vpAdapter.changeColorTitle(i,position == i));
                 }
+
+                prev_pos = position;
             }
         });
 

@@ -1,8 +1,6 @@
 package com.example.project01;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -34,9 +32,9 @@ public class Adapter1 extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(mContext);
-        imageView.setImageBitmap(frag2.decodeSampledBitmapFromResource(frag2.getFile_at(position).getAbsolutePath(), 200, 200));
+        imageView.setImageBitmap(frag2.decodeSampledBitmapFromResource(frag2.getFile_at(position).getAbsolutePath(), 500, 500));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+        imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
         return imageView;
     }
 }
