@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, MainActivity.this);
 
         frag1 frag1_obj = new frag1();
         frag2 frag2_obj = new frag2();
@@ -62,9 +62,13 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             public void onPageSelected(int position) {
-               if(position == 1) {
+                if(position == 1) {
                     frag2_obj.refresh_files();
-               }
+                }
+
+                for(int i=0; i<3; i++) {
+                    tabLayout.getTabAt(i).setText(vpAdapter.changeColorTitle(i,position == i));
+                }
             }
         });
 
