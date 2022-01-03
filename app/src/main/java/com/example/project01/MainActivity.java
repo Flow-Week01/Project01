@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.ThemeProject01);
         super.onCreate(savedInstanceState);
 
+//        this.getWindow().setStatusBarColor();
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
@@ -45,24 +47,32 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager);
 
         tabLayout.setupWithViewPager(viewPager);
+
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, MainActivity.this);
 
-        vpAdapter.addFragment(new frag1(), "List");
-        vpAdapter.addFragment(new frag2(), "GALLERY");
-        vpAdapter.addFragment(new frag3(), "AR VIEW");
+        frag1 frag1_obj = new frag1();
+        frag2 frag2_obj = new frag2();
+        frag3 frag3_obj = new frag3();
+
+        vpAdapter.addFragment(frag1_obj, "TAB1");
+        vpAdapter.addFragment(frag2_obj, "TAB2");
+        vpAdapter.addFragment(frag3_obj, "TAB3");
+        viewPager.setAdapter(vpAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             public void onPageSelected(int position) {
+                if(position == 1) {
+                    frag2_obj.refresh_files();
+                }
+
                 for(int i=0; i<3; i++) {
                     tabLayout.getTabAt(i).setText(vpAdapter.changeColorTitle(i,position == i));
                 }
             }
         });
-
-        viewPager.setAdapter(vpAdapter);
 
         OnCheckPermission();
 
