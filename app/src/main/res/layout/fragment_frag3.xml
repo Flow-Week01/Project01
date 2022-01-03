@@ -40,6 +40,18 @@
         android:layout_margin="10dp"
         android:text="RESET" />
 
+    <Button
+        android:id="@+id/capture_btn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_gravity="bottom|right"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:textSize="15sp"
+        android:text="CAPTURE" />
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
