@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/detail_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/call_resize"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+        android:id="@+id/detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lottem"
+        android:textSize="25dp"
+        android:textColor="@color/blue"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text = "Name"/>
+    <TextView
+        android:id="@+id/detail_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lottem"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text = "Number"/>
+    <TextView
+        android:id="@+id/detail_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lottem"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text = "Address"/>
+    <TextView
+        android:id="@+id/detail_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lottem"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text = "URL"/>
+
+</LinearLayout>

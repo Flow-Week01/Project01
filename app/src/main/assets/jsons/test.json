@@ -1,70 +1,62 @@
 {"book": [
-  {"name": "Hong GilDong",
-    "number": "01012345678",
+  {"name": "AEDLA",
+    "number": "0222810456",
+    "add": "서울시 강남구 학동로11길 56, 2F",
+    "url": "http://www.adela.or.kr/",
     "color": "#000000"
   },
-  {
-    "name": "Kim CheolSu",
-    "number": "01098765432",
+  {"name": "아파트멘터리",
+    "number": "0263561224",
+    "add": "서울시 강남구 도산대로 237, 4F",
+    "url": "https://apartmentary.com/",
     "color": "#000000"
   },
-  {
-    "name": "Park YeongHui",
-    "number": "01013579864",
+  {"name": "BLANK SPACE",
+    "number": "01072049204",
+    "add": "경기도 김포시 운양동 1294-2",
+    "url": "https://m.blog.naver.com/weblank",
     "color": "#000000"
   },
-  {
-    "name": "Jeong HyunCheol",
-    "number": "01097531246",
+  {"name": "한샘리하우스",
+    "number": "0234306911",
+    "add": "경기도 안산시 성곡동 665",
+    "url": "https://www.hanssem.com/main/main.do",
     "color": "#000000"
   },
-  {
-    "name": "Yoon SaRa",
-    "number": "01024680975",
+  {"name": "MOON Design",
+    "number": "01045293149",
+    "add": "대전 동구 용운로 156, 52",
+    "url": "http://moondesign.co.kr/",
     "color": "#000000"
   },
-  {
-    "name": "Lee JinYeong",
-    "number": "01019283746",
+  {"name": "홈즈디자인",
+    "number": "050713443016",
+    "add": "경상북도 구미시 봉곡서로 10",
+    "url": "http://home-z.kr/",
     "color": "#000000"
   },
-  {
-    "name": "Jeon JiMin",
-    "number": "01067584930",
+  {"name": "동그라미하우스",
+    "number": "16702267",
+    "add": "대구광역시 수성구 알파시티1로 31길 18, 2/3F",
+    "url": "https://www.ohouse.kr/",
     "color": "#000000"
   },
-  {"name": "Hong GilDong",
-    "number": "01012345678",
+  {"name": "J.Design",
+    "number": "16684152",
+    "add": "부산시 해운대구 우동 1520 롯데갤러리움센텀 s동 215호",
+    "url": "http://www.jdesign-interior.com/",
     "color": "#000000"
   },
-  {
-    "name": "Kim CheolSu",
-    "number": "01098765432",
+  {"name": "현대 리바트",
+    "number": "15773332",
+    "add": "경기도 용인시 남사읍 경기동로 316",
+    "url": "https://www.hyundailivart.co.kr/index",
     "color": "#000000"
   },
-  {
-    "name": "Park YeongHui",
-    "number": "01013579864",
-    "color": "#000000"
-  },
-  {
-    "name": "Jeong HyunCheol",
-    "number": "01097531246",
-    "color": "#000000"
-  },
-  {
-    "name": "Yoon SaRa",
-    "number": "01024680975",
-    "color": "#000000"
-  },
-  {
-    "name": "Lee JinYeong",
-    "number": "01019283746",
-    "color": "#000000"
-  },
-  {
-    "name": "Jeon JiMin",
-    "number": "01067584930",
+  {"name": "모던하우스M",
+    "number": "0518520477",
+    "add": "부산광역시 부산진구 동평로 369",
+    "url": "https://mhminterior.com/",
     "color": "#000000"
   }
 ]}
