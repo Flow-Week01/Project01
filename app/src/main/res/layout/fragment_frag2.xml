@@ -15,6 +15,18 @@
         android:layout_weight="85"
         tools:context=".frag2">
 
+        <Button
+            android:id="@+id/camera_btn"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="bottom|right"
+            android:textSize="15sp"
+            android:layout_margin="10dp"
+            android:text="Camera"
+            android:animateLayoutChanges="true"
+            android:enabled="true"
+            />
     </FrameLayout>
 
     <!-- TODO: Update blank fragment layout -->

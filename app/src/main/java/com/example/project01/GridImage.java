@@ -11,6 +11,8 @@ import android.widget.GridView;
 import androidx.fragment.app.Fragment;
 
 public class GridImage extends Fragment {
+    GridView gridView;
+    View v;
 
     public GridImage() {
         // Required empty public constructor
@@ -20,8 +22,8 @@ public class GridImage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.grid_layout, container, false);
-        GridView gridView = (GridView) v.findViewById(R.id.grid_view);
+        v = inflater.inflate(R.layout.grid_layout, container, false);
+        gridView = (GridView) v.findViewById(R.id.grid_view);
         gridView.setAdapter(new Adapter1(v.getContext()));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -34,5 +36,12 @@ public class GridImage extends Fragment {
             }
         });
         return v;
+    }
+
+    public void Grid_Reload() {
+        if(gridView != null) {
+            gridView.invalidateViews();
+            gridView.setAdapter(new Adapter1(v.getContext()));
+        }
     }
 }

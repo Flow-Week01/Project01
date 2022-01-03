@@ -68,7 +68,7 @@ public class frag1 extends Fragment {
             File dir = new File(folderPath);
             File files[] = dir.listFiles();
 
-            File storageFile = new File(folderPath+"/numberList.json");
+            File storageFile = new File(folderPath+"/numberList0.json");
             try {
                 if(storageFile.createNewFile()){
                     try (FileOutputStream outputStream = new FileOutputStream(storageFile)) {
@@ -87,7 +87,7 @@ public class frag1 extends Fragment {
                 e.printStackTrace();
             }
 
-            Reader freader = new FileReader(folderPath+"/numberList.json");
+            Reader freader = new FileReader(folderPath+"/numberList0.json");
             JSONParser parser = new JSONParser();
             JSONObject jsonObj = (JSONObject) parser.parse(freader);
             jsonArr = (JSONArray) jsonObj.get("book");
@@ -154,7 +154,7 @@ public class frag1 extends Fragment {
 
                                 FileWriter file;
                                 try {
-                                    String filePath = folderPath + "/numberList.json";
+                                    String filePath = folderPath + "/numberList0.json";
                                     System.out.println(filePath);
                                     file = new FileWriter(filePath);
                                     file.write(finalJson.toJSONString());

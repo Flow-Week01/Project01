@@ -5,16 +5,20 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.ArraySet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,6 +32,7 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.Scene;
@@ -40,9 +45,14 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -77,6 +87,7 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
 
     private Button delete_btn;
     private Button reset_btn;
+    private Button capture_btn;
 
     private TransformableNode modelToRemove = null;
     private List<TransformableNode> model_all;
@@ -150,6 +161,7 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
             return v;
         }
 
+        capture_btn = v.findViewById(R.id.capture_btn);
         delete_btn = v.findViewById(R.id.model_delete_btn);
         reset_btn = v.findViewById(R.id.model_reset_btn);
         model_all = new ArrayList<>();
@@ -348,6 +360,14 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
             armenu_view.addView(view);
         }
 
+        capture_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                takePhoto(v);
+                Toast.makeText(v.getContext(), "Captured Successfully!", Toast.LENGTH_LONG).show();
+            }
+        });
+
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -409,11 +429,45 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
                         .getGlEsVersion();
         if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
             Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
-            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG).show();
             activity.finish();
             return false;
         }
         return true;
+    }
+
+    private void takePhoto(View v)
+    {
+        ArSceneView view = arFragment.getArSceneView();
+
+        final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+
+        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
+        handlerThread.start();
+
+        PixelCopy.request(view, bitmap, (copyResult) -> {
+            if (copyResult == PixelCopy.SUCCESS)
+            {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
+                String file_name = dateFormat.format(new Date());
+
+                String photo_filePath = frag2.getPhoto_filePath();
+                if(photo_filePath == null) {
+                    photo_filePath = v.getContext().getFilesDir().getAbsolutePath().toString().concat("/photos/");
+                }
+                File file = new File(new File(photo_filePath),file_name);
+
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            handlerThread.quitSafely();
+        }, new Handler(handlerThread.getLooper()));
     }
 }
