@@ -3,13 +3,18 @@ package com.example.project01;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,11 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    int[] tabIcons = {
-            R.drawable.num,
-            R.drawable.pic,
-            R.drawable.ar
-    };
     static final int PERMISSIONS_REQUEST = 0x0000001;
 
     @Override
@@ -41,40 +41,31 @@ public class MainActivity extends AppCompatActivity {
         Toolbar customToolbar = findViewById(R.id.customToolbar);
         setSupportActionBar(customToolbar);
 
-//        int[] tabIcons = {
-//                R.drawable.num_resize,
-//                R.drawable.pic,
-//                R.drawable.ar
-//        };
-
         tabLayout = findViewById(R.id.tablayout);
         viewPager = findViewById(R.id.viewpager);
 
-//        tabLayout
-
         tabLayout.setupWithViewPager(viewPager);
+        VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, MainActivity.this);
 
-
-
-        VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        vpAdapter.addFragment(new frag1(), "LIST");
+        vpAdapter.addFragment(new frag1(), "List");
         vpAdapter.addFragment(new frag2(), "GALLERY");
         vpAdapter.addFragment(new frag3(), "AR VIEW");
-        setupTapIcons();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                for(int i=0; i<3; i++) {
+                    tabLayout.getTabAt(i).setText(vpAdapter.changeColorTitle(i,position == i));
+                }
+            }
+        });
+
         viewPager.setAdapter(vpAdapter);
 
         OnCheckPermission();
 
-    }
-
-    void setupTapIcons(){
-        for(int i=0;i<3;i++){
-            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
-            //tabLayout.getTabAt(i).setText("TAB");
-        }
-//        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-//        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     public void OnCheckPermission() {
@@ -102,4 +93,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 }

@@ -45,34 +45,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:tabIndicatorGravity="top"
-            app:tabIndicatorColor="@color/blue"
             android:background="@color/white"
-            app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/blue">
+            android:theme="@style/MyCustomTabLayout"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorGravity="top"
+            app:tabSelectedTextColor="@color/blue"
+            app:tabTextColor="@color/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TAB1" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TAB2" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TAB3" />
+                android:layout_margin="20dp"/>
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_above="@id/tablayout" />
+            android:layout_above="@id/tablayout"
+            android:background="@color/white" />
 
 
     </RelativeLayout>
