@@ -19,7 +19,6 @@
     <style name="TextTheme">
         <item name="android:fontFamily">@font/lottem</item>
     </style>
-
     <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
