@@ -17,5 +17,5 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:text="SAMPLE"
-        android:background="@color/clasic_blue"/>
+        android:background="@color/blue"/>
 </LinearLayout>

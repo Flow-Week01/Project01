@@ -43,8 +43,7 @@
             android:textStyle="bold"
             android:text="TextView"
             android:background="#ffffff"
-            android:textColor="@color/black"
-            android:fontFamily="@font/avenirbold"/>
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/numberTxt"
@@ -53,8 +52,7 @@
             android:textSize="18dp"
             android:text="TextView"
             android:textColor="@color/black"
-            android:background="#ffffff"
-            android:fontFamily="@font/avenirbold"/>
+            android:background="#ffffff"/>
     </LinearLayout>
 
     <LinearLayout

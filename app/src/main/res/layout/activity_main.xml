@@ -11,22 +11,22 @@
         android:id="@+id/customToolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/black"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/toolBarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Project01"
-                android:textColor="@color/white"
+                android:text="TitleBar"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -36,30 +36,45 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tablayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TAB1" />
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorGravity="top"
+            app:tabIndicatorColor="@color/blue"
+            android:background="@color/white"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/blue">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TAB1" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TAB2" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TAB3" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TAB2" />
+            android:background="@color/white"
+            android:layout_above="@id/tablayout" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TAB3" />
-    </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </LinearLayout>

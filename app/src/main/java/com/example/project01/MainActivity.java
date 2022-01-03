@@ -22,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    int[] tabIcons = {
+            R.drawable.num,
+            R.drawable.pic,
+            R.drawable.ar
+    };
     static final int PERMISSIONS_REQUEST = 0x0000001;
 
     @Override
@@ -36,19 +41,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar customToolbar = findViewById(R.id.customToolbar);
         setSupportActionBar(customToolbar);
 
+//        int[] tabIcons = {
+//                R.drawable.num_resize,
+//                R.drawable.pic,
+//                R.drawable.ar
+//        };
+
         tabLayout = findViewById(R.id.tablayout);
         viewPager = findViewById(R.id.viewpager);
 
+//        tabLayout
+
         tabLayout.setupWithViewPager(viewPager);
 
+
+
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        vpAdapter.addFragment(new frag1(), "TAB1");
-        vpAdapter.addFragment(new frag2(), "TAB2");
-        vpAdapter.addFragment(new frag3(), "TAB3");
+        vpAdapter.addFragment(new frag1(), "LIST");
+        vpAdapter.addFragment(new frag2(), "GALLERY");
+        vpAdapter.addFragment(new frag3(), "AR VIEW");
+        setupTapIcons();
         viewPager.setAdapter(vpAdapter);
 
         OnCheckPermission();
 
+    }
+
+    void setupTapIcons(){
+        for(int i=0;i<3;i++){
+            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
+            //tabLayout.getTabAt(i).setText("TAB");
+        }
+//        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+//        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     public void OnCheckPermission() {
