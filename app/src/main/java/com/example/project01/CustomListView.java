@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,7 +141,7 @@ public class CustomListView extends BaseAdapter {
                             freader[0] = null;
                             jsonObj[0] = null;
                             try {
-                                freader[0] = new FileReader(folderPath+"/numberList.json");
+                                freader[0] = new FileReader(folderPath+"/numberList0.json");
                                 JSONParser parser = new JSONParser();
                                 jsonObj[0] = (JSONObject) parser.parse(freader[0]);
                             } catch (IOException e) {
@@ -170,7 +171,7 @@ public class CustomListView extends BaseAdapter {
 
                             FileWriter file;
                             try {
-                                String filePath = folderPath + "/numberList.json";
+                                String filePath = folderPath + "/numberList0.json";
                                 file = new FileWriter(filePath);
                                 file.write(finalJson.toJSONString());
                                 file.flush();
@@ -209,7 +210,7 @@ public class CustomListView extends BaseAdapter {
                     freader[0] = null;
                     jsonObj[0] = null;
                     try {
-                        freader[0] = new FileReader(folderPath+"/numberList.json");
+                        freader[0] = new FileReader(folderPath+"/numberList0.json");
                         JSONParser parser = new JSONParser();
                         jsonObj[0] = (JSONObject) parser.parse(freader[0]);
                     } catch (IOException e) {
@@ -224,7 +225,7 @@ public class CustomListView extends BaseAdapter {
 
                     FileWriter file;
                     try {
-                        String filePath = folderPath + "/numberList.json";
+                        String filePath = folderPath + "/numberList0.json";
                         file = new FileWriter(filePath);
                         file.write(finalJson.toJSONString());
                         file.flush();
@@ -244,7 +245,7 @@ public class CustomListView extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 try {
-                    freader[0] = new FileReader(folderPath+"/numberList.json");
+                    freader[0] = new FileReader(folderPath+"/numberList0.json");
                     JSONParser parser = new JSONParser();
                     jsonObj[0] = (JSONObject) parser.parse(freader[0]);
                 } catch (IOException e) {
@@ -260,7 +261,7 @@ public class CustomListView extends BaseAdapter {
 
                 FileWriter file;
                 try {
-                    String filePath = folderPath + "/numberList.json";
+                    String filePath = folderPath + "/numberList0.json";
                     file = new FileWriter(filePath);
                     file.write(finalJsonRe.toJSONString());
                     file.flush();
@@ -280,7 +281,7 @@ public class CustomListView extends BaseAdapter {
             public void onClick(View view) {
                 String changedColor = randomColor();
                 try {
-                    freader[0] = new FileReader(folderPath+"/numberList.json");
+                    freader[0] = new FileReader(folderPath+"/numberList0.json");
                     JSONParser parser = new JSONParser();
                     jsonObj[0] = (JSONObject) parser.parse(freader[0]);
                 } catch (IOException e) {
@@ -296,7 +297,7 @@ public class CustomListView extends BaseAdapter {
 
                 FileWriter file;
                 try {
-                    String filePath = folderPath + "/numberList.json";
+                    String filePath = folderPath + "/numberList0.json";
                     file = new FileWriter(filePath);
                     file.write(finalJson2.toJSONString());
                     file.flush();
