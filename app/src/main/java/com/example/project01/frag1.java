@@ -2,12 +2,15 @@ package com.example.project01;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -35,6 +38,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class frag1 extends Fragment {
 
@@ -44,6 +48,8 @@ public class frag1 extends Fragment {
 
     ListView jList;
     String folderPath;
+    ListAdapter objAdapter;
+    ArrayList<ListData> arrList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +64,8 @@ public class frag1 extends Fragment {
         jList = v.findViewById(R.id.json_list);
         folderPath = getActivity().getFilesDir().getAbsolutePath().toString();
 
-        final ArrayList<ListData> arrList = new ArrayList<>();
+        arrList = new ArrayList<>();
         JSONArray jsonArr = new JSONArray();
-        System.out.println(folderPath);
         AssetManager assetManager = getContext().getAssets();
         try {
             InputStream is = assetManager.open("jsons/test.json");
@@ -100,28 +105,29 @@ public class frag1 extends Fragment {
                 listData.profileImage = R.drawable.call_resize;
                 listData.peopleName = (String) jObj.get("name");
                 listData.peopleNum = (String) jObj.get("number");
+                listData.peopleAdd = (String) jObj.get("add");
+                listData.url = (String) jObj.get("url");
                 listData.profileImgColor = (String) jObj.get("color");
                 arrList.add(listData);
                 i++;
             }
 
-            ListAdapter objAdapter = new CustomListView(arrList);
+            objAdapter = new CustomListView(arrList);
             jList.setAdapter(objAdapter);
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
-//
         Button addBtn = v.findViewById(R.id.addBtn);
         JSONArray finalJsonArr = jsonArr;
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.DialogTheme));
 
                 alert.setTitle("ADD");
-                alert.setMessage("Input name & number");
+                alert.setMessage("Input name/number/address/url");
 
                 LayoutInflater alertInflater = getLayoutInflater();
                 final View alertView = alertInflater.inflate(R.layout.add_alert, null);
@@ -133,19 +139,27 @@ public class frag1 extends Fragment {
                         addedData.profileImage = R.drawable.call_resize;
                         EditText edit_name = (EditText)alertView.findViewById(R.id.editName);
                         EditText edit_num = (EditText)alertView.findViewById(R.id.editNum);
+                        EditText edit_add = (EditText)alertView.findViewById(R.id.editAdd);
+                        EditText edit_url = (EditText)alertView.findViewById(R.id.editUrl);
                         String str_name = edit_name.getText().toString();
                         String str_num = edit_num.getText().toString();
+                        String str_add = edit_add.getText().toString();
+                        String str_url = edit_url.getText().toString();
                         if(str_name.trim().getBytes().length > 0 && str_num.trim().getBytes().length > 0) {
                             final String REGEX = "[0-9]+";
                             String test_num = str_num.trim();
                             if(test_num.matches(REGEX)){
                                 addedData.peopleName = str_name;
                                 addedData.peopleNum = str_num;
+                                addedData.peopleAdd = str_add;
+                                addedData.url = str_url;
                                 arrList.add(addedData);
 
                                 JSONObject tmpJson = new JSONObject();
                                 tmpJson.put("name", str_name);
                                 tmpJson.put("number", str_num);
+                                tmpJson.put("add", str_add);
+                                tmpJson.put("url", str_url);
                                 tmpJson.put("color", "#000000");
                                 finalJsonArr.add(tmpJson);
 
@@ -155,7 +169,6 @@ public class frag1 extends Fragment {
                                 FileWriter file;
                                 try {
                                     String filePath = folderPath + "/numberList.json";
-                                    System.out.println(filePath);
                                     file = new FileWriter(filePath);
                                     file.write(finalJson.toJSONString());
                                     file.flush();
@@ -163,6 +176,8 @@ public class frag1 extends Fragment {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+                                objAdapter = new CustomListView(arrList);
+                                jList.setAdapter(objAdapter);
                             }
                             else {
                                 AlertDialog.Builder numAlertBuilder = new AlertDialog.Builder(getContext());
@@ -172,7 +187,7 @@ public class frag1 extends Fragment {
                                     public void onClick(DialogInterface dialog,int which){
                                     }
                                 });
-                                numAlertBuilder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                                numAlertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                     }
