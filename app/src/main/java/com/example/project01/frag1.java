@@ -155,7 +155,6 @@ public class frag1 extends Fragment {
                                 FileWriter file;
                                 try {
                                     String filePath = folderPath + "/numberList0.json";
-                                    System.out.println(filePath);
                                     file = new FileWriter(filePath);
                                     file.write(finalJson.toJSONString());
                                     file.flush();

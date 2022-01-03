@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,6 @@ public class CustomListView extends BaseAdapter {
                     FileWriter file;
                     try {
                         String filePath = folderPath + "/numberList0.json";
-                        System.out.println(filePath + "DONE");
                         file = new FileWriter(filePath);
                         file.write(finalJson.toJSONString());
                         file.flush();
@@ -132,7 +132,6 @@ public class CustomListView extends BaseAdapter {
                 FileWriter file;
                 try {
                     String filePath = folderPath + "/numberList0.json";
-                    System.out.println(filePath + "DONE");
                     file = new FileWriter(filePath);
                     file.write(finalJsonRe.toJSONString());
                     file.flush();
@@ -169,7 +168,6 @@ public class CustomListView extends BaseAdapter {
                 FileWriter file;
                 try {
                     String filePath = folderPath + "/numberList0.json";
-                    System.out.println(filePath + "DONE");
                     file = new FileWriter(filePath);
                     file.write(finalJson2.toJSONString());
                     file.flush();
