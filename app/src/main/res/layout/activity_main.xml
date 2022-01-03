@@ -44,12 +44,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:tabIndicatorGravity="top"
-            app:tabIndicatorColor="@color/blue"
             android:background="@color/white"
-            app:tabTextColor="@color/black"
+            android:theme="@style/MyCustomTabLayout"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorGravity="top"
             app:tabSelectedTextColor="@color/blue"
-            android:theme="@style/TextTheme">
+            app:tabTextColor="@color/black">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
