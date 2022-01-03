@@ -32,8 +32,8 @@
         android:id="@+id/model_reset_btn"
         android:gravity="center"
         android:layout_gravity="top|left"
-        android:textSize="15sp"
-        android:layout_width="80dp"
+        android:textSize="12sp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
         android:textColor="@color/white"
@@ -42,14 +42,16 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:id="@+id/armenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/button_shape"
+            android:background="@android:color/transparent"
             android:gravity="center"/>
     </HorizontalScrollView>
 

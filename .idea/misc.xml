@@ -6,7 +6,9 @@
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/button_shape.xml" value="0.3828125" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/call_resize.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/custom_shape.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/dark_btn_shape.xml" value="0.3828125" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/list_backshape.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/listview_shape.xml" value="0.3828125" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/num_resize.xml" value="0.3828125" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/remove_background.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/drawable/remove_img.xml" value="0.22135416666666666" />
@@ -17,7 +19,7 @@
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/add_alert.xml" value="0.2015625" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/custom_listview.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/fragment_frag1.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/fragment_frag1.xml" value="0.5" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/fragment_frag2.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/fragment_frag3.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/dltbx/AndroidStudioProjects/Project01/app/src/main/res/layout/full_image_view.xml" value="0.36666666666666664" />

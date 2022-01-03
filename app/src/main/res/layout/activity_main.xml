@@ -10,23 +10,22 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/customToolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/white"
+        android:layout_height="50dp"
+        android:background="@color/blue"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="@style/ToolbarTheme">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/toolBarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TitleBar"
-                android:textColor="@color/blue"
+                android:text="이나방"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +48,8 @@
             app:tabIndicatorColor="@color/blue"
             android:background="@color/white"
             app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/blue">
+            app:tabSelectedTextColor="@color/blue"
+            android:theme="@style/TextTheme">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

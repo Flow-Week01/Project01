@@ -249,7 +249,7 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
                 armenu_text[i].setAlpha(1.0f);
             }
             else {
-                armenu_text[i].setAlpha(0.5f);
+                armenu_text[i].setAlpha(0.7f);
             }
             armenu_text[i].setId(i);
             armenu_text[i].setOnClickListener(new View.OnClickListener() {
@@ -257,7 +257,7 @@ public class frag3 extends Fragment implements Scene.OnPeekTouchListener{
                 public void onClick(View view) {
                     ar_prv = ar_cur;
                     ar_cur = view.getId();
-                    armenu_text[ar_prv].setAlpha(0.5f);
+                    armenu_text[ar_prv].setAlpha(0.7f);
                     armenu_text[ar_cur].setAlpha(1.0f);
 
                     if(delete_btn.getAlpha() == 1f) {
