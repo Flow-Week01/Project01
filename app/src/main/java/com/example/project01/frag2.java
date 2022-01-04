@@ -184,6 +184,8 @@ public class frag2 extends Fragment{
                 if (result.getResultCode() == RESULT_OK) {
                     if (captured_file.exists()) {
                         Bitmap bitmap = BitmapFactory.decodeFile(captured_file.getAbsolutePath());
+                        bitmap = Bitmap.createScaledBitmap(bitmap, 800,bitmap.getHeight()/(bitmap.getWidth()/800),false);
+
                         ExifInterface exif = null;
                         try {
                             exif = new ExifInterface(captured_file.getAbsoluteFile());
@@ -236,7 +238,7 @@ public class frag2 extends Fragment{
         gallery_line_view = v.findViewById(R.id.gallery_line_view);
         animator = ValueAnimator.ofFloat(0.15f, 0.3f);
         animator.setDuration(1000);
-        animator.setStartDelay(300);
+        animator.setStartDelay(800);
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -251,7 +253,7 @@ public class frag2 extends Fragment{
 
         animator2 = ValueAnimator.ofFloat(0.3f, 0.15f);
         animator2.setDuration(1000);
-        animator2.setStartDelay(1500);
+        animator2.setStartDelay(1200);
 
         animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -387,9 +389,9 @@ public class frag2 extends Fragment{
                 light_switch.setImageResource(R.drawable.switch_on);
             }
 
-            imageView_light.animate().setStartDelay(1300);
-            imageView2_light.animate().setStartDelay(1400);
-            imageView3_light.animate().setStartDelay(1500);
+            imageView_light.animate().setStartDelay(1800);
+            imageView2_light.animate().setStartDelay(1900);
+            imageView3_light.animate().setStartDelay(2000);
 
             animator.start();
 
@@ -425,9 +427,9 @@ public class frag2 extends Fragment{
             imageView3_light.animate().alpha(0.1f);
         }
         else if(from_click){
-            imageView_light.animate().setStartDelay(1100);
-            imageView2_light.animate().setStartDelay(1200);
-            imageView3_light.animate().setStartDelay(1300);
+            imageView_light.animate().setStartDelay(800);
+            imageView2_light.animate().setStartDelay(900);
+            imageView3_light.animate().setStartDelay(1000);
 
             imageView3_light.animate().alpha(0f);
             imageView2_light.animate().alpha(0f);
