@@ -318,11 +318,16 @@ public class CustomListView extends BaseAdapter {
     private String randomColor(){
         String color = "#";
         final Random random = new Random();
-        final String[] letters = Arrays.copyOfRange("0123456789ABCDEF".split(""), 1, 17);
+        final String[] letters = "0123456789ABCDEF".split("");
         for (int i = 0; i < 6; i++) {
             int tmpInt = random.nextInt(16);
-            String tmpLetter = letters[tmpInt];
-            color += tmpLetter;
+            if(letters[tmpInt] != null && !letters[tmpInt].equals("")){
+                String tmpLetter = letters[tmpInt];
+                color += tmpLetter;
+            }
+            else {
+                i--;
+            }
         }
         return color;
     }
