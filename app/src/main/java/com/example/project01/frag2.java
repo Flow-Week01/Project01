@@ -7,13 +7,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,6 +36,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -173,10 +178,35 @@ public class frag2 extends Fragment{
         }
         // Log.d("File path for photos: ", photo_filePath);
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == RESULT_OK) {
-                    refresh_files();
+                    if (captured_file.exists()) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(captured_file.getAbsolutePath());
+                        ExifInterface exif = null;
+                        try {
+                            exif = new ExifInterface(captured_file.getAbsoluteFile());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                        int exifDegree = exifOrientationToDegrees(exifOrientation);
+                        bitmap = rotate(bitmap, exifDegree);
+
+                        captured_file.delete();
+
+                        try {
+                            FileOutputStream out = new FileOutputStream(captured_file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                            out.flush();
+                            out.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        refresh_files();
+                    }
                 }
             }
         });
@@ -352,6 +382,11 @@ public class frag2 extends Fragment{
 
     public void show_animation(boolean from_click) {
         if(is_slide) {
+            if(!from_click && !light_on) {
+                light_on = true;
+                light_switch.setImageResource(R.drawable.switch_on);
+            }
+
             imageView_light.animate().setStartDelay(1300);
             imageView2_light.animate().setStartDelay(1400);
             imageView3_light.animate().setStartDelay(1500);
@@ -432,5 +467,38 @@ public class frag2 extends Fragment{
             imageView2_light.animate().alpha(0.3f);
             imageView3_light.animate().alpha(0.1f);
         }
+    }
+
+    public int exifOrientationToDegrees(int exifOrientation){
+        if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        }else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+    public Bitmap rotate(Bitmap bitmap, int degrees)
+    {
+        if(degrees != 0 && bitmap != null)
+        {
+            Matrix m = new Matrix();
+            m.setRotate(degrees, (float) bitmap.getWidth() / 2,
+                    (float) bitmap.getHeight() / 2);
+            try
+            {
+                Bitmap converted = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
+                if(bitmap != converted)
+                {
+                    bitmap.recycle();
+                    bitmap = converted;
+                }
+            }
+            catch(OutOfMemoryError ex)
+            {
+            }
+        }
+        return bitmap;
     }
 }

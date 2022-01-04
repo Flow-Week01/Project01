@@ -8,7 +8,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -27,10 +29,19 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.ThemeProject01);
         super.onCreate(savedInstanceState);
 
-//        this.getWindow().setStatusBarColor();
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        View decorView = getWindow().getDecorView();
+        int uiOption = getWindow().getDecorView().getSystemUiVisibility();
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH )
+            uiOption |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN )
+            uiOption |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT )
+            uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility( uiOption );
+
         setContentView(R.layout.activity_main);
 
         Toolbar customToolbar = findViewById(R.id.customToolbar);
@@ -68,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
                     frag2_obj.show_animation(false);
                 }
 
-                for(int i=0; i<3; i++) {
-                    tabLayout.getTabAt(i).setText(vpAdapter.changeColorTitle(i,position == i));
-                }
+                tabLayout.getTabAt(prev_pos).setText(vpAdapter.changeColorTitle(prev_pos,false));
+                tabLayout.getTabAt(position).setText(vpAdapter.changeColorTitle(position,true));
 
                 prev_pos = position;
             }

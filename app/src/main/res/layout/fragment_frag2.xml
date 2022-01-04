@@ -86,7 +86,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="top|left"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:animateLayoutChanges="true"
                 android:background="#00000000"
                 android:contentDescription="TODO"
